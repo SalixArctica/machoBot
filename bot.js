@@ -28,55 +28,57 @@ const clips = [
   'yeah'
 ]
 
+const helpMenu = `type !macho followed by any of the following commands: \n
+  help - reopen this menu \n
+  random - play a random quote
+  \n All of the following play specific clips: \n` + clips.map(clip => {
+    return '  ' + clip + '\n';
+  }).join('');
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.user.setActivity('try !macho help');
 });
 
-client.on('message', msg => {
-  //help menu
-  if (msg.content === '!macho help') {
-    msg.reply('start command with !macho then any of the following: \n yeah \n cream \n primadonna \n hotdog \n random');
-  }
-
+client.on('message', message => {
+  //check if message was meant for bot otherwise exit
+  if (!message.content.startsWith(config.prefix) || message.author.bot) return;
   //if message isn't in a server exit
-  if (!msg.guild) return;
+  if (!message.guild) return;
 
-  //audio responses from here on
-  if (msg.content === '!macho yeah') {
-    play(msg, 'yeah');
+  //setup args
+  const args = message.content.slice(config.prefix.length).split(' ');
+  const command = args.shift();
+
+  //help menu
+  if (args[0] == 'help' || args.length === 0){
+    message.channel.send(helpMenu)
   }
-  else if (msg.content === '!macho justCream') {
-    play(msg, 'justTheCream');
+  //play random clip
+  else if(args[0] == 'random'){
+    play(message, clips[Math.floor(Math.random()*clips.length)]);
   }
-  else if (msg.content === '!macho cream') {
-    play(msg, 'cream');
-  }
-  else if(msg.content === '!macho primadonna') {
-    play(msg, 'primadonna');
-  }
-  else if(msg.content === '!macho hotdog') {
-    play(msg, 'hotdoggin');
-  }
-  else if(msg.content === '!macho random') {
-    play(msg, clips[Math.floor(Math.random()*clips.length)])
+  //play requested clip
+  else {
+    play(message, args[0]);
   }
 });
 
+//login
 client.login(config.token);
 
 const play = (message, file) => {
   // Only try to join the sender's voice channel if they are in one themselves
   if (message.member.voiceChannel) {
     message.member.voiceChannel.join()
-      .then(connection => { // Connection is an instance of VoiceConnection
+      .then(connection => {
         const clip = connection.playFile(__dirname + '/audio/' + file + '.mp3');
-        clip.on('end', () => {
+        clip.on('end', () => { //leave when clip is over
           message.member.voiceChannel.leave();
         })
       })
       .catch(console.log);
   } else {
-    message.reply('You need to join a voice channel first!');
+    message.reply('You need to join a voice channel first brother!');
   }
 }
