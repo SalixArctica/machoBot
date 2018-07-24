@@ -1,6 +1,8 @@
 # machoBot
 a discord bot that plays macho man randy savage quotes
 
+![alt text](https://unwinnable.com/wp-content/uploads/2011/05/Randy.jpg)
+
 # how to use
 invite to your server with this link: https://discordapp.com/oauth2/authorize?client_id=470771292992438293&permissions=3147776&scope=bot
 
