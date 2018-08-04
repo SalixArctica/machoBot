@@ -32,8 +32,8 @@ const helpMenu = `type !macho followed by any of the following commands: \n
   help - reopen this menu \n
   random - play a random quote
   \n All of the following play specific clips: \n` + clips.map(clip => {
-    return '  ' + clip + '\n';
-  }).join('');
+    return '   ' + clip;
+  }).join('\n');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
