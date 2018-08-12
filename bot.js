@@ -74,6 +74,9 @@ const play = (message, file) => {
       .then(connection => {
         const clip = connection.playFile(__dirname + '/audio/' + file + '.mp3');
         clip.on('end', () => { //leave when clip is over
+          message.delete()
+            .then(msg => console.log(`message deleted from ${msg.author.username}`))
+            .catch(console.error);
           message.member.voiceChannel.leave();
         })
       })
