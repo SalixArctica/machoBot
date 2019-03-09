@@ -36,7 +36,8 @@ const helpMenu = `type !macho followed by any of the following commands: \n
   }).join('\n');
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`\x1b[32m%s\x1b[0m`, `Logged in as ${client.user.tag}!`);
+  //client.user.setActivity('performing maintenance');
   client.user.setActivity('try !macho help');
 });
 
@@ -57,6 +58,19 @@ client.on('message', message => {
   //play random clip
   else if(args[0] == 'random'){
     play(message, clips[Math.floor(Math.random()*clips.length)]);
+  }
+  //dumb joke command
+  else if(args[0] == 'cops'){
+    play(message, 'fuzz');
+
+    setTimeout(() => {
+      message.member.voiceChannel.members.array().forEach(member => {
+        member.setVoiceChannel('385158490634846208')
+        .then(() => console.log(`attempting to move ${member.displayName}`))
+        .catch((err) => console.error(err));
+      })
+    }, 4000);
+
   }
   //play requested clip
   else {
