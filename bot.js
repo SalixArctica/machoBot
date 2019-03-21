@@ -61,15 +61,7 @@ client.on('message', message => {
   }
   //dumb joke command
   else if(args[0] == 'cops'){
-    play(message, 'fuzz');
 
-    setTimeout(() => {
-      message.member.voiceChannel.members.array().forEach(member => {
-        member.setVoiceChannel('385158490634846208')
-        .then(() => console.log(`attempting to move ${member.displayName}`))
-        .catch((err) => console.error(err));
-      })
-    }, 4000);
 
   }
   //play requested clip
@@ -77,6 +69,28 @@ client.on('message', message => {
     play(message, args[0]);
   }
 });
+
+//listen for voice channel changes
+bot.on('voiceStatusUpdate', (oldMember, newMember) => {
+
+  //check that it is a voice join and in the correct channel
+  if(newMember && newMember.voiceChannel == watchedChannel) {
+    copsRun(newMember);
+  }
+}
+
+const copsRun = (newMember) => {
+  play(message, 'fuzz');
+  if(message.member!= newMember) {
+    setTimeout(() => {
+      message.member.voiceChannel.members.array().forEach(member => {
+        member.setVoiceChannel('385158490634846208')
+        .then(() => console.log(`attempting to move ${member.displayName}`))
+        .catch((err) => console.error(err));
+      })
+    }, 4000);
+  }
+}
 
 //login
 client.login(config.token);
