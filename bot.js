@@ -42,6 +42,17 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+
+  //censor lettuce propaganda
+  if(message.content.contains('lettuce') || message.content.contains('3/14/19')) {
+    let newStr = message.content.toLowercase().replace('lettuce wars', 'nothing happened');
+    newStr.replace('lettuce', 'the worst cabbage');
+    newStr.replace('3/14/19', 'no time in particular');
+    newStr.replace('never forget', 'move along citizen');
+
+    message.edit(newStr);
+  }
+
   //check if message was meant for bot otherwise exit
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
   //if message isn't in a server exit
@@ -77,7 +88,7 @@ bot.on('voiceStatusUpdate', (oldMember, newMember) => {
   if(newMember && newMember.voiceChannel == watchedChannel) {
     copsRun(newMember);
   }
-}
+});
 
 const copsRun = (newMember) => {
   play(message, 'fuzz');
