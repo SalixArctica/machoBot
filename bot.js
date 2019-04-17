@@ -43,16 +43,19 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
+  console.log(message.content);
+
   //censor lettuce propaganda
-  if(message.content.contains('lettuce') || message.content.contains('3/14/19')) {
-    let newStr = message.content.toLowercase().replace('lettuce wars', 'nothing happened');
+  /* can't edit other users messages
+  if(message.content.includes('lettuce') || message.content.includes('3/14/19')) {
+    let newStr = message.content.toLowerCase().replace('lettuce wars', 'nothing happened');
     newStr.replace('lettuce', 'the worst cabbage');
     newStr.replace('3/14/19', 'no time in particular');
     newStr.replace('never forget', 'move along citizen');
 
     message.edit(newStr);
   }
-
+  */
   //check if message was meant for bot otherwise exit
   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
   //if message isn't in a server exit
@@ -82,7 +85,7 @@ client.on('message', message => {
 });
 
 //listen for voice channel changes
-bot.on('voiceStatusUpdate', (oldMember, newMember) => {
+client.on('voiceStatusUpdate', (oldMember, newMember) => {
 
   //check that it is a voice join and in the correct channel
   if(newMember && newMember.voiceChannel == watchedChannel) {
