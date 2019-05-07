@@ -94,6 +94,7 @@ client.on('voiceStatusUpdate', (oldMember, newMember) => {
 });
 
 const copsRun = (newMember) => {
+  //does something really dumb and is not recommended
   play(message, 'fuzz');
   if(message.member!= newMember) {
     setTimeout(() => {
@@ -105,6 +106,12 @@ const copsRun = (newMember) => {
     }, 4000);
   }
 }
+
+//watch for client websocket closing and reopen it;
+client.on('disconnect', (msg, code) => {
+  if (code === 0) return console.error(msg);
+  client.connect();
+});
 
 //login
 client.login(config.token);
