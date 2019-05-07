@@ -43,8 +43,6 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-  console.log(message.content);
-
   //censor lettuce propaganda
   /* can't edit other users messages
   if(message.content.includes('lettuce') || message.content.includes('3/14/19')) {
