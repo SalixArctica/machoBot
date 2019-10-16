@@ -28,11 +28,11 @@ const clips = [
   'yeah'
 ]
 
-const helpMenu = `type !macho followed by any of the following commands: \n
-  help - reopen this menu \n
-  random - play a random quote
+const helpMenu = `type **!macho** followed by any of the following commands:
+  >>> **help** - reopen this menu \n
+  **random** - play a random quote
   \n All of the following play specific clips: \n` + clips.map(clip => {
-    return '   ' + clip;
+    return '   **' + clip + '**';
   }).join('\n');
 
 client.on('ready', () => {
@@ -71,6 +71,10 @@ client.on('message', message => {
   //help menu
   if (args[0] == 'help' || args.length === 0){
     message.channel.send(helpMenu)
+    message.channel.send(`\n\n_Example_ \n \`!macho yeah\`
+
+Found a bug? Open an issue on github!
+https://github.com/Tankcaster/machoBot`);
   }
   //play random clip
   else if(args[0] == 'random'){
