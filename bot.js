@@ -36,7 +36,10 @@ const helpMenu = `type !macho followed by any of the following commands: \n
   }).join('\n');
 
 client.on('ready', () => {
-  console.log(`\x1b[32m%s\x1b[0m`, `Logged in as ${client.user.tag}!`);
+  let userCount = 0;
+  client.guilds.forEach(guild => userCount += guild.memberCount);
+
+  console.log(`${client.user.tag} \u001b[32;1mready\x1b[0m on \u001b[35;1m${client.guilds.size}\u001b[0m servers and serving \u001b[36;1m${userCount}\u001b[0m users!`);
   //client.user.setActivity('performing maintenance');
   client.user.setActivity('try !macho help');
 });
@@ -63,6 +66,8 @@ client.on('message', message => {
   const args = message.content.slice(config.prefix.length).split(' ');
   const command = args.shift();
 
+  console.log(`command \u001b[32m${args[0]}\u001b[0m from \u001b[36m${message.member.displayName}\u001b[0m in server \u001b[35m${message.guild.name}\u001b[0m at \u001b[33m${new Date().toISOString()}\u001b[0m`);
+
   //help menu
   if (args[0] == 'help' || args.length === 0){
     message.channel.send(helpMenu)
@@ -75,6 +80,24 @@ client.on('message', message => {
   else if(args[0] == 'cops'){
 
 
+  }
+  else if(args[0] == 'seizeTheMemesOfProduction') {
+	message.reply(`
+🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️
+🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️:joy:🅱️🅱️🅱️🅱️🅱️🅱️
+🅱️🅱️🅱️🅱️🅱️:joy::joy:🅱️:joy::joy:🅱️🅱️🅱️🅱️🅱️
+🅱️🅱️🅱️🅱️:joy::joy::joy:🅱️🅱️:joy::joy:🅱️🅱️🅱️🅱️
+🅱️🅱️🅱️:joy::joy::joy::joy:🅱️🅱️🅱️:joy::joy:🅱️🅱️🅱️
+🅱️🅱️:joy::joy::joy::joy:🅱️🅱️🅱️🅱️:joy::joy::joy:🅱️🅱️
+🅱️:joy::joy::joy::joy::joy::joy:🅱️🅱️🅱️🅱️:joy::joy:🅱️🅱️
+🅱️🅱️:joy:😂️🅱️:joy::joy:😂️🅱️🅱️🅱️:joy::joy::joy:🅱️
+🅱️🅱️🅱️🅱️🅱️🅱️:joy::joy::joy:🅱️🅱️🅱️:joy::joy:🅱️
+🅱️🅱️🅱️🅱️🅱️🅱️🅱️:joy::joy::joy:🅱️:joy::joy::joy:🅱️
+🅱️🅱️🅱️🅱️:joy:🅱️🅱️🅱️:joy::joy::joy::joy::joy:🅱️🅱️
+🅱️🅱️🅱️:joy::joy::joy:🅱️🅱️🅱️:joy::joy::joy:🅱️🅱️🅱️
+🅱️:joy::joy::joy:🅱️:joy::joy::joy::joy::joy::joy::joy::joy:🅱️🅱️
+🅱️:joy::joy:🅱️🅱️🅱️:joy::joy::joy:🅱️🅱️:joy::joy:🅱️🅱️
+🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️🅱️`);
   }
   //play requested clip
   else {
@@ -108,7 +131,6 @@ const copsRun = (newMember) => {
 //watch for client websocket closing and reopen it;
 client.on('disconnect', (msg, code) => {
   if (code === 0) return console.error(msg);
-  client.connect();
 });
 
 //login
@@ -119,6 +141,9 @@ const play = (message, file) => {
   if (message.member.voiceChannel) {
     message.member.voiceChannel.join()
       .then(connection => {
+
+	connection.on('error', console.error);
+
         const clip = connection.playFile(__dirname + '/audio/' + file + '.mp3');
         clip.on('end', () => { //leave when clip is over
           message.delete()
