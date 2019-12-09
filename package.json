@@ -1,29 +1,27 @@
 {
   "name": "machobot",
   "version": "1.0.0",
-  "description": "a discord bot that plays machoman randy savage quotes",
+  "description": "a discord bot that plays macho man randy savage quotes",
   "main": "bot.js",
+  "dependencies": {
+    "erlpack": "^0.1.3",
+    "discord.js": "^11.5.1",
+    "node-opus": "^0.3.3",
+    "sodium": "^3.0.2",
+    "discordjs/uws": "^10.149.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Tankcaster/machoBot.git"
+    "url": "git+https://github.com/tankcaster/machobot.git"
   },
-  "keywords": [
-    "discord",
-    "javascript"
-  ],
   "author": "Tankcaster",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Tankcaster/machoBot/issues"
+    "url": "https://github.com/tankcaster/machobot/issues"
   },
-  "homepage": "https://github.com/Tankcaster/machoBot#readme",
-  "dependencies": {
-    "discord.js": "^11.3.2",
-    "ffmpeg": "0.0.4",
-    "ffmpeg-binaries": "^4.0.0",
-    "node-opus": "^0.3.0"
-  }
+  "homepage": "https://github.com/tankcaster/machobot#readme"
 }

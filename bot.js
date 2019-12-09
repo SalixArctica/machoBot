@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
+const path = require('path');
 
 const clips = [
   'better',
@@ -142,21 +143,30 @@ client.login(config.token);
 
 const play = (message, file) => {
   // Only try to join the sender's voice channel if they are in one themselves
+
   if (message.member.voiceChannel) {
     message.member.voiceChannel.join()
-      .then(connection => {
+    .then(connection => {
 
-	connection.on('error', console.error);
+      connection.on('error', console.error);
+      setTimeout(() => {
+        const clip = connection.playFile(path.join(__dirname, '/audio/', file + '.mp3'));
 
-        const clip = connection.playFile(__dirname + '/audio/' + file + '.mp3');
+        clip.on('error', err => {
+          console.error(err);
+        })
+        /*
         clip.on('end', () => { //leave when clip is over
           message.delete()
-            .then(msg => console.log(`message deleted from ${msg.author.username}`))
-            .catch(console.error);
+          .then(msg => console.log(`message deleted from ${msg.author.username}`))
+          .catch(console.error);
+  
           message.member.voiceChannel.leave();
-        })
-      })
-      .catch(console.log);
+        })*/
+      }, 1000)
+    })
+    .catch(console.error);
+    
   } else {
     message.reply('You need to join a voice channel first brother!');
   }
