@@ -149,24 +149,21 @@ const play = (message, file) => {
     .then(connection => {
 
       connection.on('error', console.error);
-      setTimeout(() => {
         const clip = connection.playFile(path.join(__dirname, '/audio/', file + '.mp3'));
 
         clip.on('error', err => {
           console.error(err);
         })
-        /*
+
         clip.on('end', () => { //leave when clip is over
           message.delete()
-          .then(msg => console.log(`message deleted from ${msg.author.username}`))
           .catch(console.error);
-  
+
           message.member.voiceChannel.leave();
-        })*/
-      }, 1000)
+        })
     })
     .catch(console.error);
-    
+
   } else {
     message.reply('You need to join a voice channel first brother!');
   }
