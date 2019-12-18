@@ -149,7 +149,7 @@ const play = (message, file) => {
     .then(connection => {
 
       connection.on('error', console.error);
-        const clip = connection.playFile(path.join(__dirname, '/audio/', file + '.mp3', { volume: 0.7 }));
+        const clip = connection.playFile(path.join(__dirname, '/audio/', file + '.mp3'), { volume: 0.7 });
 
         clip.on('error', err => {
           console.error(err);
