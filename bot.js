@@ -71,7 +71,7 @@ client.on("message", (message) => {
 
   //setup args
   const args = message.content.slice(config.prefix.length).split(" ");
-  const command = args.shift().toLowerCase();
+  const command = args[1].toLowerCase();
 
   console.log(
     `command \u001b[32m${command}\u001b[0m from \u001b[36m${
