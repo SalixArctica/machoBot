@@ -40,8 +40,10 @@ const clipsList = clips
 
 const helpMenu =
     `type **!macho** followed by any of the following commands:
-  >>> **help** - reopen this menu \n
+  >>> 
+  **help** - reopen this menu
   **random** - play a random quote
+  **cleanup** - remove any posts from the bot and any calls to it within the last 100 messages
   \n All of the following play specific clips: \n` + clipsList
 
 client.on('ready', () => {
@@ -129,7 +131,7 @@ client.on('message', message => {
         message.channel.messages.fetch({ limit: 100, before: message.id })
             .then(messages => {
                 messages.each(oldMessage => {
-                    let messageMadeByBot = oldMessage.member.id === message.guild.me.id;
+                    let messageMadeByBot = oldMessage.author.id === message.guild.me.id;
                     let messageMeantForBot = oldMessage.content.includes(config.prefix);
 
                     if (messageMadeByBot || messageMeantForBot) {
@@ -138,7 +140,7 @@ client.on('message', message => {
                 })
                 deleteMessage(message);
 
-            }).catch(err => console.error);
+            }).catch(console.error);
     }
     //play requested clip
     else {
